@@ -1,0 +1,63 @@
+CREATE TABLE IF NOT EXISTS Categorie (
+    id VARCHAR(20) PRIMARY KEY,
+    name VARCHAR(20),
+    link TEXT
+);
+CREATE TABLE IF NOT EXISTS SubCategorie (
+    id VARCHAR(20) PRIMARY KEY,
+    name VARCHAR(20),
+    link TEXT,
+    categorie_id VARCHAR(20),
+    FOREIGN KEY (categorie_id) REFERENCES Categorie(id)
+);
+CREATE TABLE IF NOT EXISTS Course (
+    id VARCHAR(20) PRIMARY KEY,
+    title TEXT,
+    url TEXT,
+    description TEXT,
+    img_url TEXT,
+    rating VARCHAR(20),
+    num_reviews VARCHAR(20),
+    duration VARCHAR(20),
+    price VARCHAR(20),
+    level VARCHAR(20),
+    course_type VARCHAR(20),
+    sub_categorie_id VARCHAR(20),
+    FOREIGN KEY (sub_categorie_id) REFERENCES SubCategorie(id)
+);
+CREATE TABLE IF NOT EXISTS Instructor (
+    id VARCHAR(20) PRIMARY KEY,
+    name TEXT,
+    url TEXT,
+    description TEXT
+);
+CREATE TABLE IF NOT EXISTS Organization (
+    id VARCHAR(20) PRIMARY KEY,
+    name TEXT,
+    contact_url TEXT,
+    img_url TEXT,
+    description TEXT,
+    phone TEXT,
+    e_mail TEXT
+);
+CREATE TABLE IF NOT EXISTS CourseInstructor (
+    course_id VARCHAR(20),
+    instructor_id VARCHAR(20),
+    PRIMARY KEY (course_id, instructor_id),
+    FOREIGN KEY (course_id) REFERENCES Course(id),
+    FOREIGN KEY (instructor_id) REFERENCES Instructor(id)
+);
+CREATE TABLE IF NOT EXISTS CourseOrganization (
+    course_id VARCHAR(20),
+    organization_id VARCHAR(20),
+    PRIMARY KEY (course_id, organization_id),
+    FOREIGN KEY (course_id) REFERENCES Course(id),
+    FOREIGN KEY (organization_id) REFERENCES Organization(id)
+);
+CREATE TABLE IF NOT EXISTS InstructorOrganization (
+    instructor_id VARCHAR(20),
+    organization_id VARCHAR(20),
+    PRIMARY KEY (instructor_id, organization_id),
+    FOREIGN KEY (instructor_id) REFERENCES Instructor(id),
+    FOREIGN KEY (organization_id) REFERENCES Organization(id)
+);
